@@ -51,7 +51,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::PrimaryAttack);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump); // Jump is built-in to the character actor, so we just need to reference that class instead of our own.
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump); // Jump is built-in to the character actor through charactermovementcomponent, so we just need to reference that class instead of our own.
 
 }
 
