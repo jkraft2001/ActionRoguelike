@@ -1,6 +1,7 @@
 # ActionRoguelike
 
 Course content completed using Unreal Engine 5.2.1 and Microsoft Visual Studio/Visual Studio Code.
+Comments I make are notes for my personal reference.
 
 I will be updating the READ.ME as needed and outlined as I progress through the course.
 
