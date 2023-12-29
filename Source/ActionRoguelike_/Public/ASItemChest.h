@@ -20,6 +20,9 @@ public:
 	// Sets default values for this actor's properties
 	AASItemChest();
 
+	UPROPERTY(EditAnywhere)
+	float TargetPitch;
+
 protected:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* BaseMesh;
