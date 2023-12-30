@@ -15,7 +15,7 @@ class ACTIONROGUELIKE__API USInteractionComponent : public UActorComponent
 
 public:	
 	// Sets default values for this component's properties
-	USInteractionComponent();
+	//USInteractionComponent();
 
 public:
 
