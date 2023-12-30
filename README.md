@@ -4,6 +4,8 @@ Course content completed using Unreal Engine 5.2.1 and Microsoft Visual Studio/V
 
 I will be updating the READ.ME as needed and outlined as I progress through the course.
 
+Comments made in code are notes for my reference.
+
 ___
 
 I am using Epic Game's assets to complete the course content. Details are below.
