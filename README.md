@@ -6,6 +6,8 @@ I will be updating the READ.ME as needed and outlined as I progress through the 
 
 Comments made in code are notes for my reference.
 
+12/30/2023 - Bug issue was related to the ASExplosiveBarrel. Adding in instructor implementation overwrote too many references in my source files, which resulted in exponential issue growth. I've reverted to an older version of the project, and will resume from the point at which that version had left off.
+
 ___
 
 I am using Epic Game's assets to complete the course content. Details are below.
