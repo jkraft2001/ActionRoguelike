@@ -75,6 +75,8 @@ void USInteractionComponent::PrimaryInteract()
 
 				ISGameplayInterface::Execute_Interact(HitActor, MyPawn); // (APawn* Instigator Pawn)
 				// HitActor cannot be null in this instance. We cannot execute our interact function on a null actor.
+
+				break; // Prevents character from interacting with multiple objects.
 			}
 		}
 
