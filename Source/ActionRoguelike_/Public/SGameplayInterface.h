@@ -13,6 +13,10 @@ class USGameplayInterface : public UInterface
 	GENERATED_BODY()
 };
 
+// Whenever we want to implement the interface, use USGameplayInterface.
+// Whenever we want to call the interface's functionality, use ISGameplayInterface.
+// See the SInteractionComponent.cpp file's PrimaryInteract() definition for an example.
+
 /**
  * 
  */
