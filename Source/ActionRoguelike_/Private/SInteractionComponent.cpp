@@ -46,25 +46,43 @@ void USInteractionComponent::PrimaryInteract()
 
 	FVector End = EyeLocation + (EyeRotation.Vector() * 1000);
 	
-	FHitResult Hit;
-	bool bIsBlockingHit = GetWorld()->LineTraceSingleByObjectType(Hit, EyeLocation, End, ObjectQueryParams);
+	//FHitResult Hit;
+	//bool bIsBlockingHit = GetWorld()->LineTraceSingleByObjectType(Hit, EyeLocation, End, ObjectQueryParams);
+	// Replacing single trace with multi trace.
 
-	AActor* HitActor = Hit.GetActor();
-	if (HitActor)
-	{
-		// Checking for null.
+	TArray<FHitResult> Hits;
+	FCollisionShape Shape;
+	float Radius = 30;
 
-		if (HitActor->Implements<USGameplayInterface>())
-		{
-			APawn* MyPawn = Cast<APawn>(MyOwner);
-			// Casting can still be null in this instance.
+	Shape.SetSphere(Radius);
 
-			ISGameplayInterface::Execute_Interact(HitActor, MyPawn); // (APawn* Instigator Pawn)
-			// HitActor cannot be null in this instance. We cannot execute our interact function on a null actor.
-		}
-	}
+	bool bIsBlockingHit = GetWorld()->SweepMultiByObjectType(Hits, EyeLocation, End, FQuat::Identity /*Default (empty) rotation since we can't rotate spheres*/, ObjectQueryParams, Shape);
+	// Quaternions are more complicated rotations that can't lock, but they can't be used in blueprints.
 	
 	FColor LineColor = bIsBlockingHit ? FColor::Red : FColor::Green;
+	
+	for (FHitResult Hit : Hits)
+	{
+		AActor* HitActor = Hit.GetActor();
+		if (HitActor)
+		{
+			// Checking for null.
+
+			if (HitActor->Implements<USGameplayInterface>())
+			{
+				APawn* MyPawn = Cast<APawn>(MyOwner);
+				// Casting can still be null in this instance.
+
+				ISGameplayInterface::Execute_Interact(HitActor, MyPawn); // (APawn* Instigator Pawn)
+				// HitActor cannot be null in this instance. We cannot execute our interact function on a null actor.
+			}
+		}
+
+
+		DrawDebugSphere(GetWorld(), Hit.ImpactPoint, Radius, 32, LineColor, false, 2.0f);
+	}
+
 	DrawDebugLine(GetWorld(), EyeLocation, End, LineColor, false, 2.0f, 0, 2.0f);
+
 
 }
