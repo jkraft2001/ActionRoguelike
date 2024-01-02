@@ -47,7 +47,7 @@ void USInteractionComponent::PrimaryInteract()
 	FVector End = EyeLocation + (EyeRotation.Vector() * 1000);
 	
 	FHitResult Hit;
-	bool bIsBlockingHit = GetWorld()->LineTraceSingleByObjectType(Hit, EyeLocation, End, ObjectQueryParams);
+	GetWorld()->LineTraceSingleByObjectType(Hit, EyeLocation, End, ObjectQueryParams);
 
 	AActor* HitActor = Hit.GetActor();
 	if (HitActor)
@@ -64,7 +64,6 @@ void USInteractionComponent::PrimaryInteract()
 		}
 	}
 	
-	FColor LineColor = bIsBlockingHit ? FColor::Red : FColor::Green;
-	DrawDebugLine(GetWorld(), EyeLocation, End, LineColor, false, 2.0f, 0, 2.0f);
+	DrawDebugLine(GetWorld(), EyeLocation, End, FColor::Red, false, 2.0f, 0, 2.0f);
 
 }
