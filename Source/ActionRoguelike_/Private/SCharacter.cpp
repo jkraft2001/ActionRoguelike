@@ -84,8 +84,16 @@ void ASCharacter::MoveRight(float value)
 
 void ASCharacter::PrimaryAttack() 
 {
+	PlayAnimMontage(AttackAnim);
+
+	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.2f);
+
+}
+
+void ASCharacter::PrimaryAttack_TimeElapsed()
+{
 	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-	
+
 	FTransform SpawnTM = FTransform(GetControlRotation(), HandLocation); // GetActorLocation() just gets the actor's origin. Use the skeletal mesh (above) to get precise locations when desired.
 
 	FActorSpawnParameters SpawnParams;
