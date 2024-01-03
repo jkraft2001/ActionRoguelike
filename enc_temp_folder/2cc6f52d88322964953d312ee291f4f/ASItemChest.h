@@ -24,7 +24,7 @@ public:
 	AASItemChest();
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* LidMesh;
 
 	UPROPERTY(VisibleAnywhere)
