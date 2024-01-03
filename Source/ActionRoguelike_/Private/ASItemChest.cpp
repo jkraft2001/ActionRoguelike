@@ -23,6 +23,7 @@ AASItemChest::AASItemChest()
 void AASItemChest::Interact_Implementation(APawn* InstigatorPawn)
 {
 	LidMesh->SetRelativeRotation(FRotator(TargetPitch, 0, 0));
+	// This is edited in blueprints.
 
 }
 
