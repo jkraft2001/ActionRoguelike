@@ -92,15 +92,22 @@ void ASCharacter::PrimaryAttack()
 
 void ASCharacter::PrimaryAttack_TimeElapsed()
 {
-	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+	if (ensure(ProjectileClass)) 
+	// If the 'if' statement is true, everything is normal. If it is not true, 'ensure' will assert.
+	// Assertions throw an exception, and automatically highlight the section of code that causes the error. 
+	// It will only trigger the first time after compilation unless you use 'ensureAlways'. Additionally, it will not run on shipped builds.
+	// 'check' is another option, but it will end the program. 
+	{
+		FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 
-	FTransform SpawnTM = FTransform(GetControlRotation(), HandLocation); // GetActorLocation() just gets the actor's origin. Use the skeletal mesh (above) to get precise locations when desired.
+		FTransform SpawnTM = FTransform(GetControlRotation(), HandLocation); // GetActorLocation() just gets the actor's origin. Use the skeletal mesh (above) to get precise locations when desired.
 
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	SpawnParams.Instigator = this;
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		SpawnParams.Instigator = this;
 
-	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM /*SpawnTransformMatrix = SpawnTM*/, SpawnParams);
+		GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM /*SpawnTransformMatrix = SpawnTM*/, SpawnParams);
+	}
 
 }
 
