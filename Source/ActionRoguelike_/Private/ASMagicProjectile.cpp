@@ -5,6 +5,7 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "SAttributeComponent.h"
 
 // Sets default values
 AASMagicProjectile::AASMagicProjectile()
@@ -15,6 +16,7 @@ AASMagicProjectile::AASMagicProjectile()
 	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
 	SphereComp->SetCollisionObjectType(ECC_WorldDynamic);
 	SphereComp->SetCollisionProfileName("Projectile"); // Creates a custom collision preset. We can apply to all future projectiles as well.
+	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AASMagicProjectile::OnActorOverlap);
 	RootComponent = SphereComp;
 
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
@@ -24,6 +26,22 @@ AASMagicProjectile::AASMagicProjectile()
 	MovementComp->InitialSpeed = 1000.0f;
 	MovementComp->bRotationFollowsVelocity = true;
 	MovementComp->bInitialVelocityInLocalSpace = true;
+
+}
+
+void AASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor)
+	{
+		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		
+		if (AttributeComp)
+		{
+			AttributeComp->ApplyHealthChange(-20.0f);
+
+			Destroy();
+		}
+	}
 
 }
 
