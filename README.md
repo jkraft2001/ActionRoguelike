@@ -8,7 +8,7 @@ Comments made in code are notes for my reference.
 
 12/30/2023 - Bug issue was related to the ASExplosiveBarrel. Adding in instructor implementation overwrote too many references in my source files, which resulted in exponential issue growth. I've reverted to an older version of the project, and will resume from the point at which that version had left off.
 
-1/14/2023 - Bug issue related to ASMagicProjectile. Similar issue as before, where rebuilding the solution from sourece did not fix implementation. Reverted to previous day's project version, and I guess I get to add in the implementation again (but with the benefit of hindsight)!
+1/14/2023 - Bug issue related to ASMagicProjectile. Similar issue as before, where rebuilding the solution from sourece did not fix implementation. Reverted to previous day's project version, and I guess I get to add in the implementation again (but with the benefit of hindsight)! At the end of the day, sure it's frustrating but at least I get more much-wanted and needed practice in an area of game development I enjoy.
 
 ___
 
