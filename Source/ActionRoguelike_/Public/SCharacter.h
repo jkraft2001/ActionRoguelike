@@ -40,22 +40,32 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	UAnimMontage* AttackAnim;
 
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AActor>BlackHoleProjectileClass;
+
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AActor> DashProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	float AttackAnimDelay;
+
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Components")
 	USAttributeComponent* AttributeComp;
 
 	FTimerHandle TimerHandle_PrimaryAttack;
+	FTimerHandle TimerHandle_BlackHoleAttack;
+	FTimerHandle TimerHandle_Dash;
 
+	void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent);
 	void MoveForward(float value);
 	void MoveRight(float value);
 	void PrimaryAttack();
 	void PrimaryAttack_TimeElapsed();
 	void PrimaryInteract();
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	void SpawnProjectile(TSubclassOf<AActor> ClassToSpawn);
+	void Dash_TimeElapsed();
+	void Dash();
+	void BlackHoleAttack_TimeElapsed();
+	void BlackHoleAttack();
 
 };
