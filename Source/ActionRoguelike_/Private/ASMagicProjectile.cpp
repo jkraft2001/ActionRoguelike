@@ -2,16 +2,30 @@
 
 
 #include "ASMagicProjectile.h"
-#include "SAttributeComponent.h"
 #include "Components/SphereComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "SAttributeComponent.h"
 
 // Sets default values
 AASMagicProjectile::AASMagicProjectile()
 {
-	SphereComp->SetSphereRadius(20.0f);
-	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AASMagicProjectile::OnActorOverlap);
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
 
-	DamageAmount = 20.0f;
+	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
+	SphereComp->SetCollisionObjectType(ECC_WorldDynamic);
+	SphereComp->SetCollisionProfileName("Projectile"); // Creates a custom collision preset. We can apply to all future projectiles as well.
+	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AASMagicProjectile::OnActorOverlap);
+	RootComponent = SphereComp;
+
+	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
+	EffectComp->SetupAttachment(SphereComp);
+
+	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>("MovementComp");
+	MovementComp->InitialSpeed = 1000.0f;
+	MovementComp->bRotationFollowsVelocity = true;
+	MovementComp->bInitialVelocityInLocalSpace = true;
 
 }
 
@@ -20,14 +34,28 @@ void AASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent
 	if (OtherActor && OtherActor != GetInstigator())
 	{
 		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		
 		if (AttributeComp)
 		{
-			// minus in front of DamageAmount to apply the change as damage, not healing
-			AttributeComp->ApplyHealthChange(-DamageAmount);
+			AttributeComp->ApplyHealthChange(-20.0f);
 
-			// Only explode when we hit something valid
-			Explode();
+			Destroy();
 		}
 	}
 
 }
+
+// Called when the game starts or when spawned
+void AASMagicProjectile::BeginPlay()
+{
+	Super::BeginPlay();
+	
+}
+
+// Called every frame
+void AASMagicProjectile::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
