@@ -22,40 +22,53 @@ public:
 	ASCharacter();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere) // Visible in the editor
+	UPROPERTY(EditAnywhere, Category = "Attack")
 	TSubclassOf<AActor> ProjectileClass;
 
-	UPROPERTY(VisibleAnywhere)
-	USpringArmComponent* SpringArmComp;
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AActor> BlackHoleProjectileClass;
 
-	UPROPERTY(VisibleAnywhere)
-	UCameraComponent* CameraComp;
-
-	UPROPERTY(VisibleAnywhere)
-	USInteractionComponent* InteractionComp;
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AActor> DashProjectileClass;
 
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	UAnimMontage* AttackAnim;
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Components")
+	FTimerHandle TimerHandle_PrimaryAttack;
+	FTimerHandle TimerHandle_BlackholeAttack;
+	FTimerHandle TimerHandle_Dash;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	float AttackAnimDelay;
+
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* SpringArmComp;
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* CameraComp;
+	UPROPERTY(VisibleAnywhere)
+	USInteractionComponent* InteractionComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USAttributeComponent* AttributeComp;
 
-	FTimerHandle TimerHandle_PrimaryAttack;
+	void MoveForward(float Value);
+	void MoveRight(float Value);
 
-	void MoveForward(float value);
-	void MoveRight(float value);
 	void PrimaryAttack();
 	void PrimaryAttack_TimeElapsed();
+
+	void BlackHoleAttack();
+	void BlackholeAttack_TimeElapsed();
+
+	void Dash();
+	void Dash_TimeElapsed();
+
+	// Re-use spawn logic between attacks
+	void SpawnProjectile(TSubclassOf<AActor> ClassToSpawn);
+
 	void PrimaryInteract();
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+public:
 
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
